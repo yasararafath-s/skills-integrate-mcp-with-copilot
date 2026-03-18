@@ -4,6 +4,7 @@
 
 let currentUser = null;
 let authToken = null;
+let currentPermissions = null;
 
 // ============================================================================
 // Authentication
@@ -142,13 +143,27 @@ function updateUserDisplay() {
 
 function updateAdminUI() {
   const isAdmin = currentUser && (currentUser.role === "club_admin" || currentUser.role === "federation_admin");
-  const adminElements = document.querySelectorAll(".admin-only");
+  const isFederationAdmin = currentUser && currentUser.role === "federation_admin";
   
-  if (isAdmin) {
-    adminElements.forEach(el => el.classList.remove("hidden"));
-  } else {
-    adminElements.forEach(el => el.classList.add("hidden"));
-  }
+  // Show/hide admin tab
+  const adminTabs = document.querySelectorAll(".admin-only");
+  adminTabs.forEach(tab => {
+    if (isAdmin) {
+      tab.classList.remove("hidden");
+    } else {
+      tab.classList.add("hidden");
+    }
+  });
+  
+  // Show/hide federation-only sections
+  const federationElements = document.querySelectorAll(".federation-admin-only");
+  federationElements.forEach(el => {
+    if (isFederationAdmin) {
+      el.classList.remove("hidden");
+    } else {
+      el.classList.add("hidden");
+    }
+  });
 }
 
 // ============================================================================

@@ -26,6 +26,32 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 1440  # 24 hours
 
 # ============================================================================
+# Role-Based Access Control (RBAC) Permissions Matrix
+# ============================================================================
+# 
+# STUDENT:
+#   - View all activities from active clubs
+#   - View club details
+#   - Sign up for activities
+#   - Unregister from activities
+#
+# CLUB_ADMIN:
+#   - All STUDENT permissions
+#   - Create activities for their club
+#   - Update activities for their club
+#   - Delete activities from their club
+#   - Update club details (name, description)
+#
+# FEDERATION_ADMIN:
+#   - All CLUB_ADMIN permissions
+#   - Create new clubs
+#   - Update any club (including principal and status)
+#   - Ban/activate clubs
+#   - Approve/manage all activities across all clubs
+#
+# ============================================================================
+
+# ============================================================================
 # Enums
 # ============================================================================
 
@@ -315,6 +341,48 @@ def get_current_user_info(current_user: dict = Depends(get_current_user)):
         "email": user.email,
         "role": user.role.value
     }
+
+@app.get("/auth/permissions")
+def get_user_permissions(current_user: dict = Depends(get_current_user)):
+    """Get current user's permissions based on their role"""
+    user_role = UserRole(current_user["role"])
+    
+    permissions = {
+        "role": user_role.value,
+        "permissions": []
+    }
+    
+    # Student permissions (base)
+    if user_role in [UserRole.STUDENT, UserRole.CLUB_ADMIN, UserRole.FEDERATION_ADMIN]:
+        permissions["permissions"].extend([
+            "view_activities",
+            "view_clubs",
+            "view_club_details",
+            "signup_for_activity",
+            "unregister_from_activity"
+        ])
+    
+    # Club Admin permissions
+    if user_role in [UserRole.CLUB_ADMIN, UserRole.FEDERATION_ADMIN]:
+        permissions["permissions"].extend([
+            "create_activity",
+            "update_activity",
+            "delete_activity",
+            "update_club",
+            "access_admin_panel"
+        ])
+    
+    # Federation Admin permissions
+    if user_role == UserRole.FEDERATION_ADMIN:
+        permissions["permissions"].extend([
+            "create_club",
+            "ban_club",
+            "manage_all_clubs",
+            "manage_all_activities",
+            "access_federation_admin_console"
+        ])
+    
+    return permissions
 
 # ============================================================================
 # Club Management Endpoints
