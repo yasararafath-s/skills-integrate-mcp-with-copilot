@@ -7,43 +7,154 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header>
-      <h1>Mergington High School</h1>
-      <h2>Extracurricular Activities</h2>
-    </header>
+    <!-- Login Page -->
+    <div id="login-page" class="page">
+      <header>
+        <h1>Mergington High School</h1>
+        <h2>Activity Management System</h2>
+      </header>
 
-    <main>
-      <section id="activities-container">
-        <h3>Available Activities</h3>
-        <div id="activities-list">
-          <!-- Activities will be loaded here -->
-          <p>Loading activities...</p>
+      <main>
+        <section id="login-container">
+          <h3>Login</h3>
+          <form id="login-form">
+            <div class="form-group">
+              <label for="login-email">Email:</label>
+              <input 
+                type="email" 
+                id="login-email" 
+                required 
+                placeholder="your-email@mergington.edu" 
+              />
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password:</label>
+              <input 
+                type="password" 
+                id="login-password" 
+                required 
+                placeholder="Enter your password" 
+              />
+            </div>
+            <button type="submit">Login</button>
+            <p class="small-text">
+              Don't have an account? <button type="button" id="switch-to-register" class="link-btn">Register</button>
+            </p>
+          </form>
+          <div id="login-message" class="hidden"></div>
+
+          <div class="demo-credentials">
+            <h4>Demo Credentials:</h4>
+            <ul>
+              <li><strong>Federation Admin:</strong> emma@mergington.edu / admin123</li>
+              <li><strong>Club Admin:</strong> principal@mergington.edu / club123</li>
+              <li><strong>Student:</strong> michael@mergington.edu / student123</li>
+              <li><strong>Student:</strong> sophia@mergington.edu / student123</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="register-container" class="hidden">
+          <h3>Register</h3>
+          <form id="register-form">
+            <div class="form-group">
+              <label for="register-email">Email:</label>
+              <input 
+                type="email" 
+                id="register-email" 
+                required 
+                placeholder="your-email@mergington.edu" 
+              />
+            </div>
+            <div class="form-group">
+              <label for="register-password">Password:</label>
+              <input 
+                type="password" 
+                id="register-password" 
+                required 
+                placeholder="Create a password" 
+              />
+            </div>
+            <button type="submit">Register</button>
+            <p class="small-text">
+              Already have an account? <button type="button" id="switch-to-login" class="link-btn">Login</button>
+            </p>
+          </form>
+          <div id="register-message" class="hidden"></div>
+        </section>
+      </main>
+
+      <footer>
+        <p>&copy; 2026 Mergington High School</p>
+      </footer>
+    </div>
+
+    <!-- Main App Page -->
+    <div id="app-page" class="page hidden">
+      <header>
+        <div class="header-top">
+          <h1>Mergington High School</h1>
+          <div class="user-info">
+            <span id="user-email-display"></span>
+            <span id="user-role-display"></span>
+            <button id="logout-btn">Logout</button>
+          </div>
         </div>
-      </section>
+        <h2>Activity Management System</h2>
+      </header>
 
-      <section id="signup-container">
-        <h3>Sign Up for an Activity</h3>
-        <form id="signup-form">
-          <div class="form-group">
-            <label for="email">Student Email:</label>
-            <input type="email" id="email" required placeholder="your-email@mergington.edu" />
-          </div>
-          <div class="form-group">
-            <label for="activity">Select Activity:</label>
-            <select id="activity" required>
-              <option value="">-- Select an activity --</option>
-              <!-- Activity options will be loaded here -->
-            </select>
-          </div>
-          <button type="submit">Sign Up</button>
-        </form>
-        <div id="message" class="hidden"></div>
-      </section>
-    </main>
+      <nav id="nav-tabs" class="nav-tabs">
+        <button class="nav-tab active" data-tab="activities-tab">Activities</button>
+        <button class="nav-tab" data-tab="clubs-tab">Clubs</button>
+        <button class="nav-tab admin-only hidden" data-tab="admin-tab">Admin</button>
+      </nav>
 
-    <footer>
-      <p>&copy; 2026 Mergington High School</p>
-    </footer>
+      <main>
+        <!-- Activities Tab -->
+        <section id="activities-tab" class="tab-content active">
+          <h3>Available Activities</h3>
+          <div id="activities-list">
+            <!-- Activities will be loaded here -->
+            <p>Loading activities...</p>
+          </div>
+        </section>
+
+        <!-- Clubs Tab -->
+        <section id="clubs-tab" class="tab-content hidden">
+          <h3>Clubs</h3>
+          <div id="clubs-list">
+            <!-- Clubs will be loaded here -->
+            <p>Loading clubs...</p>
+          </div>
+        </section>
+
+        <!-- Admin Tab -->
+        <section id="admin-tab" class="tab-content hidden">
+          <h3>Administration</h3>
+          
+          <section id="admin-clubs" class="admin-only hidden">
+            <h4>Manage Clubs</h4>
+            <button id="create-club-btn" class="btn-primary">Create New Club</button>
+            <div id="admin-clubs-list">Loading clubs...</div>
+          </section>
+
+          <section id="admin-activities" class="admin-section admin-only hidden">
+            <h4>Manage Activities</h4>
+            <div id="admin-activities-list">Loading activities...</div>
+          </section>
+        </section>
+      </main>
+
+      <footer>
+        <p>&copy; 2026 Mergington High School</p>
+      </footer>
+    </div>
+
+    <!-- Notification Modal -->
+    <div id="notification" class="notification hidden">
+      <span id="notification-message"></span>
+      <button class="close-btn" onclick="closeNotification()">&times;</button>
+    </div>
 
     <script src="app.js"></script>
   </body>

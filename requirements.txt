@@ -1,2 +1,6 @@
 fastapi
 uvicorn
+pyjwt
+python-dotenv
+werkzeug
+python-multipart
